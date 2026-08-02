@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IAM Policy Diff Visualizer</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --border: #30363d; --text: #e6edf3;
+    --muted: #8b949e; --green: #3fb950; --red: #f85149; --blue: #58a6ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text); margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  header { padding: 28px 32px; border-bottom: 1px solid var(--border); background: linear-gradient(135deg,#161b22,#0d1117); }
+  header h1 { margin: 0; font-size: 1.5rem; }
+  header p { color: var(--muted); margin: 4px 0 0; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 32px 60px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .col h2 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+  textarea {
+    width: 100%; height: 420px; background: var(--panel); color: var(--text);
+    border: 1px solid var(--border); border-radius: 8px; padding: 12px;
+    font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 0.82rem;
+    resize: vertical;
+  }
+  .actions { margin-top: 20px; display: flex; align-items: center; gap: 16px; }
+  button {
+    background: var(--blue); color: #0d1117; border: none; border-radius: 8px;
+    padding: 12px 24px; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+  }
+  button:hover { opacity: 0.9; }
+  .error { background: rgba(248,81,73,0.12); border: 1px solid var(--red); color: var(--red);
+           padding: 10px 16px; border-radius: 8px; margin-bottom: 16px; }
+  footer { color: var(--muted); font-size: 0.8rem; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 16px; }
+  a { color: var(--blue); }
+</style>
+</head>
+<body>
+<header>
+  <h1>IAM Policy Diff Visualizer</h1>
+  <p>Paste two IAM policy documents. See the effective permission change, not just a JSON diff.</p>
+</header>
+<main>
+  {% if error %}<div class="error">{{ error }}</div>{% endif %}
+  <form method="POST" action="/compare">
+    <div class="grid">
+      <div class="col">
+        <h2>Old / baseline policy (JSON)</h2>
+        <textarea name="old_policy" spellcheck="false">{{ old_text }}</textarea>
+      </div>
+      <div class="col">
+        <h2>New / proposed policy (JSON)</h2>
+        <textarea name="new_policy" spellcheck="false">{{ new_text }}</textarea>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="submit">Compare policies →</button>
+      <span style="color:var(--muted); font-size:0.85rem;">Pre-filled with a sample privilege-escalation scenario — edit freely.</span>
+    </div>
+  </form>
+  <footer>
+    <p>All comparison happens locally in this process — nothing is sent anywhere else.
+       See the <a href="https://github.com/AshwinNHacker/iam-diff-visualizer" target="_blank">project README</a> for the CLI and CI usage.</p>
+  </footer>
+</main>
+</body>
+</html>

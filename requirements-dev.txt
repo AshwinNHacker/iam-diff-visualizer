@@ -1,0 +1,2 @@
+pytest>=7.4
+botocore>=1.34   # only needed to run scripts/build_actions_db.py

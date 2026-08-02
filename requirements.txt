@@ -1,0 +1,4 @@
+# The core iamdiff engine and CLI use only the Python standard library.
+# This file is intentionally empty of runtime deps -- see:
+#   requirements-dev.txt  -> testing + regenerating the action database
+#   webapp/requirements.txt -> the optional Flask web UI
