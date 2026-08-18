@@ -194,3 +194,5 @@ Contributions welcome — the risk ruleset in particular ([`risk_rules.py`](iamd
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+2026
